@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/Theme.MaterialComponents"
+    android:background="#DFDBDB"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Fragments.AccountFragment">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/con_top"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:background="@color/black"
+            android:layout_height="70dp">
+
+
+            <TextView
+                android:id="@+id/welcome_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:textSize="@dimen/text_18"
+                android:text="Welcome!"
+                android:textColor="@color/white"
+                android:layout_margin="@dimen/margin_top_16" />
+            <TextView
+                android:id="@+id/account_email_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/welcome_tv"
+                app:layout_constraintStart_toStartOf="@id/welcome_tv"
+                android:textSize="@dimen/text_14"
+                android:text="Enter your Account"
+                android:textColor="@color/white" />
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/account_login_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:text="Login"
+                app:cornerRadius="4dp"
+                android:padding="12dp"
+                android:backgroundTint="#ED4915"
+                android:textColor="@color/white"
+                android:layout_marginEnd="@dimen/margin_top_16"/>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/cash_cons"
+            android:layout_width="match_parent"
+            app:layout_constraintTop_toBottomOf="@id/con_top"
+            android:padding="@dimen/padding_8"
+            android:background="@color/white"
+            android:layout_height="36dp">
+            <TextView
+                android:id="@+id/account_balance_tv"
+                android:textColor="#060432"
+                android:text="Login to see your balance"
+                android:textSize="@dimen/margin_top_16"
+                app:layout_constraintTop_toTopOf="parent"
+                android:drawableLeft="@drawable/ic_cash"
+                android:drawablePadding="@dimen/padding_8"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+        android:id="@+id/my_store_tv"
+        android:text="MY STORE ACCOUNT"
+        android:layout_margin="@dimen/margin_bottom_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/cash_cons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/my_store_cons"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/margin_top_8"
+            android:background="@color/white"
+            app:layout_constraintBottom_toTopOf="@+id/my_setting_tv"
+            app:layout_constraintCircleRadius="8dp"
+            android:padding="0dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/my_store_tv">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/account_orders_btn"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Orders"
+                android:drawableRight="@drawable/ic_next"
+                android:drawablePadding="@dimen/margin_bottom_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:backgroundTint="@color/transparent"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:textAlignment="viewStart"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/account_pendingrev_btn"
+                app:layout_constraintTop_toBottomOf="@id/account_orders_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Pending Reviews"
+                android:drawableRight="@drawable/ic_next"
+                android:drawablePadding="@dimen/margin_bottom_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:backgroundTint="@color/transparent"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:textAlignment="viewStart"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/account_savedItem_btn"
+                app:layout_constraintTop_toBottomOf="@id/account_pendingrev_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Saved Items"
+                android:drawableRight="@drawable/ic_next"
+                android:drawablePadding="@dimen/margin_bottom_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:backgroundTint="@color/transparent"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:textAlignment="viewStart"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/account_RecentlyViewed_btn"
+                app:layout_constraintTop_toBottomOf="@id/account_savedItem_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Recently viewed"
+                android:drawableRight="@drawable/ic_next"
+                android:drawablePadding="@dimen/margin_bottom_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:backgroundTint="@color/transparent"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:textAlignment="viewStart"
+                android:layout_height="wrap_content"/>
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/account_RecentlySearched_btn"
+                app:layout_constraintTop_toBottomOf="@id/account_RecentlyViewed_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Recently Searched"
+                android:drawableRight="@drawable/ic_next"
+                android:drawablePadding="@dimen/margin_bottom_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:backgroundTint="@color/transparent"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:textAlignment="viewStart"
+                android:layout_height="wrap_content"/>
+
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <TextView
+        android:id="@+id/my_setting_tv"
+            android:layout_margin="@dimen/margin_bottom_16"
+        android:text="ACCOUNT SETTINGS"
+        app:layout_constraintTop_toBottomOf="@id/my_store_cons"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+        <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/setting_cons"
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="@dimen/margin_top_8"
+        android:layout_marginVertical="@dimen/margin_top_16"
+        android:background="@color/white"
+        app:layout_constraintCircleRadius="16dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/my_setting_tv"
+
+        app:layout_constraintBottom_toTopOf="@id/account_bottom_login_btn">
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/account_details_btn"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="details"
+                android:drawableRight="@drawable/ic_next"
+                android:drawablePadding="@dimen/margin_bottom_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:backgroundTint="@color/transparent"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:textAlignment="viewStart"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/account_address_book_btn"
+                app:layout_constraintTop_toBottomOf="@id/account_details_btn"
+                app:layout_constraintStart_toStartOf="parent"
+                android:text="Address book"
+                android:drawableRight="@drawable/ic_next"
+                android:drawablePadding="@dimen/margin_bottom_16"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:backgroundTint="@color/transparent"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_width="0dp"
+                android:textAlignment="viewStart"
+                android:layout_height="wrap_content"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <com.google.android.material.button.MaterialButton
+        android:id="@+id/account_bottom_login_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:text="LOGIN"
+        android:textColor="#ED4915"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="130dp"
+        android:backgroundTint="@color/transparent"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="0dp"
+        android:layout_marginHorizontal="22dp"
+        android:layout_height="wrap_content"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
