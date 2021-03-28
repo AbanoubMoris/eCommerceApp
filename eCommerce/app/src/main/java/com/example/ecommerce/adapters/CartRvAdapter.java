@@ -69,12 +69,6 @@ public class CartRvAdapter extends RecyclerView.Adapter<CartRvAdapter.CartViewHo
             @Override
             public void onClick(View view) {
                 onIncClick.onInc(view, holder.getAdapterPosition());
-
-
-                //FixME : fix this
-
-
-
             }
         });
 
@@ -101,12 +95,12 @@ public class CartRvAdapter extends RecyclerView.Adapter<CartRvAdapter.CartViewHo
         return productsList.size();
     }
 
-    class CartViewHolder extends RecyclerView.ViewHolder {
+    public class CartViewHolder extends RecyclerView.ViewHolder {
 
         ImageView image;
         TextView titleTv;
         TextView detailsTv;
-        TextView priceTv;
+        public TextView priceTv;
         TextView quantityTv;
         ImageButton incIb;
         ImageButton decIb;

@@ -1,9 +1,20 @@
 package com.example.ecommerce.Fragments;
 
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -13,21 +24,9 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Toast;
-
 import com.example.ecommerce.R;
 import com.example.ecommerce.adapters.CategoriesRvAdapter;
 import com.example.ecommerce.models.CategoriesModel;
-import com.example.ecommerce.models.ProductModel;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -57,17 +56,34 @@ public class CategoryFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_category, container, false);
         categoriesRv = v.findViewById(R.id.category_rv);
         add_new_category_btn = v.findViewById(R.id.add_new_category_btn);
         initProgressDialog("Loading Categories","please wait a while...");
         progressDialog.show();
+        IsAdmin();
         return v;
     }
 
+    private void IsAdmin() {
+        final String MyPREFERENCES = "MyPrefs" ;
+        SharedPreferences sharedpreferences;
+        sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        //SharedPreferences.Editor editor = sharedpreferences.edit();
+        String username = sharedpreferences.getString("email", "Welcome!");
+        String password = sharedpreferences.getString("password", "Enter your Account");
+        if(username.equals("admin")&&password.equals("admin")){
+            //isAdmin=true;
+            add_new_category_btn.setVisibility(View.VISIBLE);
+            Toast.makeText(requireContext(), "Welcome Admin", Toast.LENGTH_SHORT).show();
+        }else {
+            //isAdmin=false;
+            add_new_category_btn.setVisibility(View.GONE);
+
+        }
+    }
     private void initProgressDialog(String Title,String Message) {
         progressDialog = new ProgressDialog(requireContext());
         progressDialog.setTitle(Title);

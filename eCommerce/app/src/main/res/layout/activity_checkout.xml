@@ -1,0 +1,356 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:theme="@style/AppTheme"
+    android:background="#DFDBDB"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".Checkout">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appbar"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="match_parent"
+        android:layout_height="55dp">
+        <TextView
+            android:layout_marginTop="8dp"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:text="Checkout"
+            android:textSize="@dimen/text_22"
+            android:textColor="@color/red_dark2"
+            style="@style/Theme.MaterialComponents"
+            android:layout_height="wrap_content"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
+
+    <TextView
+        android:id="@+id/address_details_tv"
+        android:text="ADDRESS DETAILS"
+        android:layout_margin="@dimen/margin_bottom_16"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/appbar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/change_location_btn"
+        app:layout_constraintTop_toTopOf="@id/address_details_tv"
+        app:layout_constraintBottom_toBottomOf="@id/address_details_tv"
+        android:text="Change"
+        android:textSize="10sp"
+        android:textColor="#ED4915"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="@color/transparent"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/address_details_cons"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/margin_top_8"
+        android:elevation="12dp"
+        android:background="@drawable/dummybg"
+        app:layout_constraintCircleRadius="8dp"
+        android:padding="8dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/address_details_tv">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/map_cons"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="match_parent">
+
+            <fragment
+                android:id="@+id/map"
+                android:layout_width="0dp"
+                android:layout_height="530dp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:name="com.google.android.gms.maps.SupportMapFragment"/>
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/getMYloc_btn"
+                app:layout_constraintEnd_toEndOf="@id/map"
+                app:layout_constraintBottom_toBottomOf="@id/map"
+                android:layout_margin="18dp"
+                android:backgroundTint="@color/black"
+                android:src="@drawable/ic_my_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/setloc_btn"
+                app:layout_constraintTop_toBottomOf="@id/map"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="20dp"
+                android:backgroundTint="@color/red_dark"
+                android:text="Set this location"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"/>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/checkout_username"
+            app:layout_constraintTop_toTopOf="parent"
+            android:textSize="@dimen/text_18"
+            android:textColor="@color/black"
+            android:text="Abanoub moris"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_height="wrap_content"
+            android:layout_width="wrap_content" />
+        <TextView
+            android:id="@+id/checkout_street"
+            app:layout_constraintTop_toBottomOf="@id/checkout_username"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Fishawy/153"
+            android:drawablePadding="@dimen/margin_bottom_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/checkout_city"
+            app:layout_constraintTop_toBottomOf="@id/checkout_street"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Cairo"
+            android:drawablePadding="@dimen/margin_bottom_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/checkout_town"
+            app:layout_constraintTop_toBottomOf="@id/checkout_city"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Shoubra"
+            android:drawablePadding="@dimen/margin_bottom_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/checkout_phone"
+            app:layout_constraintTop_toBottomOf="@id/checkout_town"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="0127419800"
+            android:drawablePadding="@dimen/margin_bottom_16"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/delevery_tv"
+        android:layout_margin="@dimen/margin_bottom_16"
+        android:text="SELECT A DELIVERY METHOD"
+        app:layout_constraintTop_toBottomOf="@id/address_details_cons"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/door_cons"
+        android:padding="8dp"
+
+        android:layout_width="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginHorizontal="@dimen/margin_top_8"
+        android:layout_marginVertical="@dimen/margin_top_16"
+        android:elevation="12dp"
+        android:background="@drawable/dummybg"
+        app:layout_constraintCircleRadius="16dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/delevery_tv">
+
+
+        <CheckBox
+            android:id="@+id/checkbox"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Door Delivery"
+            android:checked="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+
+            android:id="@+id/notes_tv"
+            app:layout_constraintTop_toBottomOf="@id/checkbox"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Delivered between Thursday 4 Feb and monday 8 Feb.
+             Please check exact dates in the checkout page"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingStart="8dp"
+            android:layout_width="0dp"
+            android:textAlignment="viewStart"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:paddingStart="8dp"
+            android:id="@+id/shippingfees1_tv"
+            android:layout_marginTop="18dp"
+            app:layout_constraintTop_toBottomOf="@id/notes_tv"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="shipping fees: "
+            android:layout_width="0dp"
+            android:textAlignment="viewStart"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:paddingStart="8dp"
+            android:id="@+id/shippingfees2_tv"
+            android:textColor="#FF5722"
+            app:layout_constraintStart_toEndOf="@id/shippingfees1_tv"
+            app:layout_constraintTop_toTopOf="@id/shippingfees1_tv"
+            app:layout_constraintBottom_toBottomOf="@id/shippingfees1_tv"
+            android:text="EGP 87"
+            android:layout_width="0dp"
+            android:textAlignment="viewStart"
+            android:layout_height="wrap_content"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/total_cons"
+        android:padding="8dp"
+        android:layout_width="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginVertical="32dp"
+        android:elevation="12dp"
+        android:background="@drawable/dummybg"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/door_cons">
+
+        <TextView
+            android:id="@+id/checkout_subtotal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="subtotal"
+            android:textColor="@color/black"
+            android:paddingStart="8dp"
+            android:layout_width="0dp"
+            android:textAlignment="viewStart"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:paddingStart="8dp"
+            android:id="@+id/checkout_subtotal_tv"
+            android:textColor="@color/black"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/checkout_subtotal"
+            app:layout_constraintBottom_toBottomOf="@id/checkout_subtotal"
+            android:text="EGP 45"
+            android:layout_width="0dp"
+            android:textAlignment="viewStart"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/shippingfees3"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@id/checkout_subtotal"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="fees"
+            android:textColor="@color/black"
+            android:paddingStart="8dp"
+            android:layout_width="0dp"
+            android:textAlignment="viewStart"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:paddingStart="8dp"
+            android:id="@+id/shippingfees3_tv"
+            android:textColor="#FF5722"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/shippingfees3"
+            app:layout_constraintBottom_toBottomOf="@id/shippingfees3"
+            android:text="EGP 87"
+            android:layout_width="0dp"
+            android:textAlignment="viewStart"
+            android:layout_height="wrap_content"/>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/view3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="4dp"
+            android:background="#838383"
+            android:layout_marginHorizontal="@dimen/margin_top_8"
+            app:layout_constraintTop_toBottomOf="@id/shippingfees3"
+            android:layout_width="0dp"
+            android:layout_height="1dp"/>
+
+        <TextView
+            android:id="@+id/checkoutTotal_tv"
+            android:layout_marginTop="12dp"
+            app:layout_constraintTop_toBottomOf="@id/view3"
+            app:layout_constraintStart_toStartOf="parent"
+            android:text="Total"
+            android:textColor="@color/black"
+            android:paddingStart="8dp"
+            android:layout_width="0dp"
+            android:textAlignment="viewStart"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:paddingStart="8dp"
+            android:id="@+id/checkout_total_tv"
+            android:textColor="#FF5722"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/checkoutTotal_tv"
+            app:layout_constraintBottom_toBottomOf="@id/checkoutTotal_tv"
+            android:text="EGP 132"
+            android:layout_width="0dp"
+            android:textAlignment="viewStart"
+            android:layout_height="wrap_content"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/proceed_to_del_btn"
+            app:layout_constraintTop_toBottomOf="@id/checkout_total_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="22dp"
+            android:backgroundTint="#FF5722"
+            app:cornerRadius="4dp"
+            android:paddingVertical="14dp"
+            android:text="proceed to payment"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/confirmation_code_et"
+            app:layout_constraintTop_toBottomOf="@id/checkout_total_tv"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="22dp"
+            app:cornerRadius="4dp"
+            android:paddingVertical="14dp"
+            android:visibility="gone"
+            android:hint="Enter confirmation code"
+            android:textColorHint="#F1CF9D"
+            app:layout_constraintStart_toStartOf="parent"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

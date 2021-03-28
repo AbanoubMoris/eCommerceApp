@@ -10,6 +10,20 @@ import android.content.pm.PackageManager;
 import android.media.AudioManager;
 import android.media.ToneGenerator;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.SparseArray;
+import android.view.LayoutInflater;
+import android.view.SurfaceHolder;
+import android.view.SurfaceView;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,25 +34,7 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.speech.RecognizerIntent;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
-import android.util.SparseArray;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
-import android.view.SurfaceHolder;
-import android.view.SurfaceView;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.ListAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
-
+import com.example.ecommerce.GraphHistory;
 import com.example.ecommerce.HelperClasses.GridSpanDecoration;
 import com.example.ecommerce.R;
 import com.example.ecommerce.Room.RoomFactory;
@@ -50,13 +46,13 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -86,9 +82,9 @@ public class HomeFragment extends Fragment {
     private TextView barcodeText;
     private String barcodeData;
 
+    private MaterialButton view_graph_btn;
     private ImageButton barcode_btn;
     private ImageButton voice_btn;
-
 
     private void initialiseDetectorsAndSources() {
 
@@ -185,12 +181,12 @@ public class HomeFragment extends Fragment {
         progressDialog.setCanceledOnTouchOutside(false);
     }
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         product_rv = v.findViewById(R.id.product_rv);
         add_new_product_btn = v.findViewById(R.id.add_new_product_btn);
+        view_graph_btn = v.findViewById(R.id.view_graph_btn);
         initProgressDialog("Loading products","please wait a while...");
         progressDialog.show();
 
@@ -214,18 +210,24 @@ public class HomeFragment extends Fragment {
                 Navigation.findNavController(v).navigate(R.id.action_homeFragment_to_newCategoryFragment,b);
             }
         });
+        view_graph_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), GraphHistory.class));
+
+            }
+        });
 
         setupActionBar(view);
 
-        Bundle args = getArguments();
+        Bundle args = getArguments();//filter based on category
         if (args!=null){
             String cat = (String)args.getCharSequence("filter");
+            Toast.makeText(requireContext(), cat, Toast.LENGTH_SHORT).show();
             getProducts(cat);
         }else{
             getProducts("All");
         }
-
-
         setupRecyclerView();
         initialiseDetectorsAndSources();
 
@@ -314,15 +316,18 @@ public class HomeFragment extends Fragment {
                     //Log.d("Show", product.getCategory() == null ? product.getProduct_pic() : product.getProduct_description());
                     if(filter.equals("All")) productList.add(product);
                     else if(product.getProductName().startsWith(filter)) productList.add(product);
+                    else if(product.getCategory().startsWith(filter)) productList.add(product);
 
                 }
-                productsRvAdapter.notifyDataSetChanged();
                 progressDialog.dismiss();
+                productsRvAdapter.notifyDataSetChanged();
+
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-
+                progressDialog.dismiss();
             }
         });
 
@@ -336,7 +341,7 @@ public class HomeFragment extends Fragment {
                 , new ProductRvAdapter.OnProductClick()
         {
             @Override
-            public void onClick(View view, int position) {
+            public void onClick(View view, int position) { //Go to details fragment
 
                 ProductModel clickedProduct = productList.get(position);
                 clickedProduct.setProduct_quantity("1");
@@ -346,13 +351,16 @@ public class HomeFragment extends Fragment {
 
 
             }
-        }, new ProductRvAdapter.OnProductClick() {
+        }, new ProductRvAdapter.OnProductClick() { //Add to cart
             @Override
             public void onClick(View view, int position) {
                 ProductModel addProduct = productList.get(position);
                 CustomerProducts p = new CustomerProducts();
                 p.setProduct_quantity(1);
                 p.setProductName(addProduct.getProductName());
+                String StrPrice = addProduct.getProduct_price().replace(" EGP","");
+                double price = Double.parseDouble(StrPrice);
+                p.setProduct_price(price);
                 new InsertAsyncTask(RoomFactory.getCustomerDao(requireContext()).getCustomerDao()).execute(p);
                 Navigation.findNavController(view).navigate(R.id.action_homeFragment_to_cartFragment);
             }
@@ -363,15 +371,18 @@ public class HomeFragment extends Fragment {
     private void IsAdmin() {
         sharedpreferences = this.getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         //SharedPreferences.Editor editor = sharedpreferences.edit();
-        String username = sharedpreferences.getString("username", "Welcome!");
-        String password = sharedpreferences.getString("email", "Enter your Account");
-        if(username.equals("admin")&&password.equals("admin")){
+        //String username = sharedpreferences.getString("email", "Welcome!");
+        //String password = sharedpreferences.getString("password", "Enter your Account");
+        Boolean isAdmin = sharedpreferences.getBoolean("IsAdmin", false);
+        if(isAdmin){
             isAdmin=true;
             add_new_product_btn.setVisibility(View.VISIBLE);
-            Toast.makeText(requireContext(), "Welcome Admin", Toast.LENGTH_SHORT).show();
+            view_graph_btn.setVisibility(View.VISIBLE);
+            //Toast.makeText(requireContext(), "Welcome Admin", Toast.LENGTH_SHORT).show();
         }else {
             isAdmin=false;
             add_new_product_btn.setVisibility(View.GONE);
+            view_graph_btn.setVisibility(View.GONE);
 
         }
     }

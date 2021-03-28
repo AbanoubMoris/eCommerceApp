@@ -6,15 +6,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.provider.MediaStore;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,13 +18,16 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+
 import com.example.ecommerce.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -46,9 +43,7 @@ import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
@@ -73,12 +68,10 @@ public class NewCategoryAndProductFragment extends Fragment {
     private TextInputLayout product_quantity_ti;
     private TextInputLayout product_description_ti;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -96,9 +89,6 @@ public class NewCategoryAndProductFragment extends Fragment {
         click_me_tv = v.findViewById(R.id.click_me_tv);
         product_cat_sp = v.findViewById(R.id.product_cat_sp);
         mStorageRef = FirebaseStorage.getInstance().getReference();
-
-
-
 
         checkSourceFragment(v);
         qr_code.setOnClickListener(new View.OnClickListener() {
@@ -138,7 +128,6 @@ public class NewCategoryAndProductFragment extends Fragment {
 
         return  v;
     }
-
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -177,7 +166,6 @@ public class NewCategoryAndProductFragment extends Fragment {
 
 
     }
-
     private Bitmap TextToImageEncode(String Value) throws WriterException {
         BitMatrix bitMatrix;
         try {
@@ -211,13 +199,11 @@ public class NewCategoryAndProductFragment extends Fragment {
         bitmap.setPixels(pixels, 0, 500, 0, 0, bitMatrixWidth, bitMatrixHeight);
         return bitmap;
     }
-
     @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         this.getActivity().getMenuInflater().inflate(R.menu.image_context_menu,menu);
     }
-
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
          super.onContextItemSelected(item);
@@ -236,7 +222,6 @@ public class NewCategoryAndProductFragment extends Fragment {
 
          return true;
     }
-
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1234) {
@@ -297,7 +282,33 @@ public class NewCategoryAndProductFragment extends Fragment {
                                 public void onSuccess(Uri uri) {
                                     product_pic[0] =uri.toString();
                                     //Toast.makeText(requireContext(), "data uploading successfully.", Toast.LENGTH_SHORT).show();
-                                    //progressDialog.dismiss();
+                                    final StorageReference productQRRef = mStorageRef.child("images/QR/"+ProductName+".jpg");
+                                    productQRRef.putFile(getImageUri(QR))
+                                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                @Override
+                                                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                    // Get a URL to the uploaded content
+                                                    Task<Uri> downloadUrl = productQRRef.getDownloadUrl()
+                                                            .addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                                @Override
+                                                                public void onSuccess(Uri uri) {
+                                                                    qr_pic[0] =uri.toString();
+                                                                    Toast.makeText(requireContext(), "data uploading successfully.", Toast.LENGTH_SHORT).show();
+                                                                    //progressDialog.dismiss();
+                                                                    uploadProduct(ProductName, product_price, product_quantity, product_description, product_pic[0],qr_pic[0]);
+                                                                }
+                                                            });
+
+
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception exception) {
+                                                    Toast.makeText(requireContext(), "failed to upload picture", Toast.LENGTH_SHORT).show();
+                                                    progressDialog.dismiss();
+                                                }
+                                            });
                                     //uploadProduct(ProductName, product_price, product_quantity, product_description, product_pic[0],qr);
                                 }
                             });
@@ -312,33 +323,7 @@ public class NewCategoryAndProductFragment extends Fragment {
                             progressDialog.dismiss();
                         }
                     });
-            final StorageReference productQRRef = mStorageRef.child("images/QR/"+ProductName+".jpg");
-            productQRRef.putFile(getImageUri(QR))
-                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            // Get a URL to the uploaded content
-                            Task<Uri> downloadUrl = productQRRef.getDownloadUrl()
-                                    .addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    qr_pic[0] =uri.toString();
-                                    Toast.makeText(requireContext(), "data uploading successfully.", Toast.LENGTH_SHORT).show();
-                                    //progressDialog.dismiss();
-                                    uploadProduct(ProductName, product_price, product_quantity, product_description, product_pic[0],qr_pic[0]);
-                                }
-                            });
 
-
-                        }
-                    })
-                    .addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception exception) {
-                            Toast.makeText(requireContext(), "failed to upload picture", Toast.LENGTH_SHORT).show();
-                            progressDialog.dismiss();
-                        }
-                    });
 
 
 
@@ -378,7 +363,6 @@ public class NewCategoryAndProductFragment extends Fragment {
 
         }
     }
-
     private void uploadProduct(String productName, String product_price, String product_quantity, String product_description, String value,String qr) {
         HashMap<String,Object> userDataMap= new HashMap<>();
         String toBeUploaded = "categories";
@@ -416,7 +400,6 @@ public class NewCategoryAndProductFragment extends Fragment {
                     }
                 });
     }
-
     private void checkSourceFragment(View v) {
         Bundle i = getArguments();
         String sourceFragment = (String)i.getCharSequence("sourceFragment");

@@ -149,7 +149,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginBottom="8dp"
                 android:ellipsize="end"
-                android:text="Omar Ahmed"
+                android:text="ِAbanoub Moris"
                 android:textColor="#000"
                 android:textSize="18sp"
                 app:layout_constraintEnd_toEndOf="@id/product_details_tv"

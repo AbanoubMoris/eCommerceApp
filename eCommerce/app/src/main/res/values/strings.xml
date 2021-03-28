@@ -6,4 +6,5 @@
         <item>Male</item>
         <item>Female</item>
     </string-array>
+    <string name="title_activity_checkout2">Map</string>
 </resources>

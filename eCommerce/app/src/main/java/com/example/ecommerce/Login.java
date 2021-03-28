@@ -1,14 +1,6 @@
 package com.example.ecommerce;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.NavController;
-import androidx.navigation.Navigation;
-
 import android.annotation.SuppressLint;
-import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +13,9 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -77,9 +72,10 @@ public class Login extends AppCompatActivity {
                 email = username_et.getText().toString();
                 password = password_et.getText().toString();
                 if(email.equals("admin")&&password.equals("admin")){
-                    initRememberMe("admin","admin","admin");
-                    finish();
-
+                    progressDialog.show();
+                    loginwithEmail("abanoub.moris1@gmail.com", "123456", v);
+                    //initRememberMe("admin","admin","admin");
+                    //finish();
                 }else {
                     progressDialog.show();
                     loginwithEmail(email, password, v);
@@ -88,8 +84,6 @@ public class Login extends AppCompatActivity {
 
 
         });
-
-
         create_account_tv.setOnClickListener(new View.OnClickListener() {
             @SuppressLint("ResourceType")
             @Override
@@ -137,20 +131,18 @@ public class Login extends AppCompatActivity {
     private void initRememberMe(String username,String Email,String password){
         sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedpreferences.edit();
-        if(rememberMe_checkbox.isChecked()){
-            editor.putString("username", username);
-            editor.putString("email", Email);
-            editor.putString("password", password);
-        }else{
-            editor.putString("username", "username");
-            editor.putString("email", "Email");
-            editor.putString("password", "password");
-        }
+        editor.putBoolean("IsAdmin", Email.equals("abanoub.moris1@gmail.com"));
+        editor.putString("username", username);
+        editor.putString("email", Email);
+        editor.putString("password", password);
+        editor.putBoolean("rememberMe", rememberMe_checkbox.isChecked());
+
         editor.apply();
 
 
     }
     private void loginwithEmail(final String email, final String password, final View v) {
+
 
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(Login.this,new OnCompleteListener<AuthResult>() {
@@ -158,8 +150,7 @@ public class Login extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Toast.makeText(Login.this, "sign In With Email : success",
-                                    Toast.LENGTH_SHORT).show();
+
                             FirebaseUser user = mAuth.getCurrentUser();
                             DatabaseReference RootRef;
                             RootRef = FirebaseDatabase.getInstance().getReference();
@@ -167,7 +158,7 @@ public class Login extends AppCompatActivity {
                                     .addListenerForSingleValueEvent(new ValueEventListener() {
                                         @Override
                                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                            initRememberMe(snapshot.getValue().toString(),email,password);
+                                            initRememberMe(snapshot.getValue().toString(), email, password);
                                             Toast.makeText(Login.this, "Welcome "+snapshot.getValue().toString()
                                                     , Toast.LENGTH_LONG).show();
 
@@ -178,10 +169,12 @@ public class Login extends AppCompatActivity {
 
                                         @Override
                                         public void onCancelled(@NonNull DatabaseError error) {
-
+                                            progressDialog.dismiss();
                                         }
                                     });
 
+                            Toast.makeText(Login.this, "sign In With Email : success",
+                                    Toast.LENGTH_SHORT).show();
                             //updateUI(user);
                         } else {
                             Toast.makeText(Login.this, "sign In With Email : failure",

@@ -1,27 +1,22 @@
 package com.example.ecommerce.Fragments;
 
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.navigation.Navigation;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+
 import com.example.ecommerce.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 
 public class AccountFragment extends Fragment {
 
@@ -31,8 +26,6 @@ public class AccountFragment extends Fragment {
     TextView account_email_tv;
     public static final String MyPREFERENCES = "MyPrefs" ;
     SharedPreferences sharedpreferences;
-
-
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -64,7 +57,7 @@ public class AccountFragment extends Fragment {
         //SharedPreferences.Editor editor = sharedpreferences.edit();
         String username = sharedpreferences.getString("username", "Welcome!");
         String email = sharedpreferences.getString("email", "Enter your Account");
-        if(!username.equals("Welcome!")){
+        if(!email.equals("Enter your Account")){
             welcome_tv.setText("Welcome "+username+"!");
             welcome_tv.setTextColor(Color.parseColor("#ED4915"));
             account_email_tv.setText(email);
@@ -95,6 +88,8 @@ public class AccountFragment extends Fragment {
                     SharedPreferences.Editor editor = sharedpreferences.edit();
                     editor.clear();
                     editor.apply();
+
+                    FirebaseAuth.getInstance().signOut();
 
 
                 }else {

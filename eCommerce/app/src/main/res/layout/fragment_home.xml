@@ -13,7 +13,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="#fff"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/add_new_product_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,6 +25,20 @@
         android:layout_margin="18dp"
         android:backgroundTint="@color/black"
         android:src="@drawable/ic_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/view_graph_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="18dp"
+        android:drawablePadding="@dimen/margin_bottom_16"
+        android:text="View Graph history"
+        android:textColor="@color/black"
+        android:backgroundTint="@color/transparent"
+        style="?android:attr/borderlessButtonStyle"
+        android:drawableLeft="@drawable/ic_chart"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
